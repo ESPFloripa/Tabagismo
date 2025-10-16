@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Manejo do Tabagismo na APS - Florianópolis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Adicionada a biblioteca de ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .section-title {
+            @apply text-3xl font-bold text-cyan-800 mb-6 pb-2 border-b-2 border-cyan-200;
+        }
+        .card {
+            /* Adicionado 'relative' para que o z-index funcione nos filhos */
+            @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl border border-gray-200 relative;
+        }
+        .nav-link {
+            @apply px-4 py-2 text-sm text-gray-700 hover:bg-cyan-100 hover:text-cyan-800 rounded-md transition-colors;
+        }
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+            @apply text-left p-4;
+        }
+        
+        /* Estilos para o Acordeão de Tratamento */
+        .accordion-button {
+            @apply w-full flex justify-between items-center text-left p-4 bg-gray-100 hover:bg-gray-200 rounded-lg font-semibold text-gray-800 transition-colors;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            border-top: 0;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        .accordion-content .content-inner {
+             @apply p-4;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700">
+
+    <!-- Header e Navegação -->
+    <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-cyan-800">Manejo do Tabagismo na APS</h1>
+            <div class="hidden md:flex space-x-2">
+                <a href="#introducao" class="nav-link">Início</a>
+                <a href="#abordagem" class="nav-link">Abordagem</a>
+                <a href="#fagerstrom" class="nav-link">Teste Fagerström</a>
+                <a href="#tratamento" class="nav-link">Tratamento</a>
+                <a href="#pics" class="nav-link">PICS</a>
+                <a href="#quiz" class="nav-link">Quiz</a>
+                <a href="#recaida" class="nav-link">Manutenção</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#introducao" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Início</a>
+            <a href="#abordagem" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Abordagem</a>
+            <a href="#fagerstrom" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Teste Fagerström</a>
+            <a href="#tratamento" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Tratamento</a>
+            <a href="#pics" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">PICS</a>
+            <a href="#quiz" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Quiz</a>
+            <a href="#recaida" class="block py-2 text-gray-700 hover:bg-cyan-100 rounded">Manutenção</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-8">
+
+        <!-- Seção: Introdução (Hero) -->
+        <section id="introducao" class="my-12">
+            <div class="relative text-center mb-12 rounded-xl shadow-lg overflow-hidden bg-cover bg-center py-20 px-6" style="background-image: url('https://i.imgur.com/f35hprZ.png');">
+                <div class="absolute inset-0 bg-black/60"></div>
+                <div class="relative">
+                    <h2 class="text-4xl font-extrabold text-white">Guia Prático para o Manejo do Tabagismo na Atenção Primária à Saúde</h2>
+                    <p class="mt-4 text-lg text-gray-200 max-w-3xl mx-auto">Capacitando profissionais da rede de Florianópolis para o cuidado integral ao paciente tabagista.</p>
+                     <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-4">
+                        <button id="openModalBtn" class="flex items-center justify-center text-lg text-white bg-white/20 backdrop-blur-sm py-2 px-4 rounded-full w-full md:w-auto hover:bg-white/30 transition-colors">
+                            <i class="fas fa-graduation-cap mr-2"></i>Curso Livre - Instruções
+                        </button>
+                        <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center text-lg text-white bg-white/20 backdrop-blur-sm py-2 px-4 rounded-full w-full md:w-auto hover:bg-white/30 transition-colors">
+                            <i class="fas fa-file-signature mr-2"></i>Curso Livre - Inscrição
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Iniciar Curso -->
+        <section id="start-section" class="my-16 text-center">
+            <p class="mb-4 text-lg font-semibold text-cyan-800">Antes de iniciar o curso leia as instruções e faça a sua inscrição acima!</p>
+            <button id="start-button" class="bg-cyan-700 text-white text-xl font-bold py-3 px-8 rounded-full hover:bg-cyan-800 transition-colors shadow-lg">
+                <i class="fas fa-play mr-2"></i>Iniciar
+            </button>
+        </section>
+
+        <!-- Conteúdo principal a ser ocultado -->
+        <div id="main-content" class="hidden">
+            <!-- Seção: Vídeo Resumo -->
+            <section id="video" class="my-16">
+                <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Vídeo resumo - Abordagem e Manejo do Tabagismo</h2>
+                <div class="aspect-video max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/lOp57kw0Kdo" title="Vídeo resumo - Abordagem e Manejo do Tabagismo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-12">
+                    <!-- Card PNCT -->
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner rounded-xl shadow-lg">
+                            <div class="flip-card-front bg-cyan-600 text-white p-6">
+                                <h3 class="text-2xl font-bold">PNCT</h3>
+                                <p class="mt-2">(Programa Nacional de Controle do Tabagismo)</p>
+                            </div>
+                            <div class="flip-card-back bg-white p-6 flex items-center justify-center">
+                                <p class="text-sm">O objetivo do PNCT é reduzir a prevalência de fumantes e a consequente morbimortalidade relacionada ao consumo de produtos derivados do tabaco no Brasil, articulando a Rede de tratamento do tabagismo no SUS.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Entendendo o Tabagismo -->
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner rounded-xl shadow-lg">
+                            <div class="flip-card-front bg-cyan-50 border-l-4 border-cyan-500 text-cyan-900 p-6">
+                                <h3 class="text-2xl font-bold">Entendendo o Tabagismo</h3>
+                            </div>
+                            <div class="flip-card-back bg-white p-6 flex items-center justify-center">
+                                 <p class="text-sm">É uma doença crônica causada pela dependência à nicotina, uma droga psicoativa que age no sistema nervoso central e chega ao cérebro em 7 a 19 segundos. O tabagismo é classificado no CID-11.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção: Cenário e Impactos -->
+            <section id="cenario" class="my-16 py-10">
+                 <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="card border-2 border-cyan-300 h-full">
+                        <h3 class="font-bold text-xl text-cyan-800">Tabagismo Passivo</h3>
+                        <p class="mt-2">A inalação da fumaça por não fumantes aumenta o risco de infecções respiratórias, otite, morte súbita infantil e, na vida adulta, doenças cardiovasculares e câncer de pulmão.</p>
+                    </div>
+                    <div class="card border-2 border-cyan-300 h-full">
+                        <h3 class="font-bold text-xl text-cyan-800">Dispositivos Eletrônicos (DEF)</h3>
+                        <p class="mt-2">Também conhecidos como vapes, os DEFs contêm sais de nicotina que instalam rapidamente a dependência. Sua comercialização, importação e propaganda são proibidas no Brasil desde 2009.</p>
+                    </div>
+                    <div class="card border-2 border-cyan-300 h-full">
+                        <h3 class="font-bold text-xl text-cyan-800">Cenário Epidemiológico</h3>
+                        <p class="mt-2">Em Santa Catarina, 13% da população é tabagista. Florianópolis ocupa a 6ª posição entre as capitais brasileiras no ranking de número de fumantes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção: Abordagem ao Tabagista -->
+            <section id="abordagem" class="my-16">
+                <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Abordagem ao Tabagista</h2>
+                <div class="mb-8 p-4 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-lg text-cyan-900 shadow-sm">
+                    <p class="font-medium">O tratamento no SUS inclui avaliação clínica, abordagem mínima ou intensiva (individual ou em grupo) e, se necessário, terapia medicamentosa. As taxas de abstinência podem alcançar entre 35% e 55% após seis meses com tratamento.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Acolhimento e Estágios de Motivação -->
+                    <div class="flip-card h-96">
+                        <div class="flip-card-inner rounded-xl shadow-lg">
+                            <div class="flip-card-front bg-gray-100 p-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Acolhimento e Estágios de Motivação</h3>
+                            </div>
+                            <div class="flip-card-back bg-white p-6 overflow-y-auto">
+                                <p class="mb-2 text-sm">A identificação do estágio motivacional do usuário é crucial para elaborar estratégias de intervenção eficazes. A meta é avançar para o estágio seguinte.</p>
+                                <ul class="space-y-1 text-xs">
+                                    <li><strong>Pré-contemplação ("Eu não vou"):</strong> Não considera mudar. <span class="font-semibold text-cyan-700">Estratégia:</span> Levantar dúvidas, aumentar a percepção dos riscos.</li>
+                                    <li><strong>Contemplação ("Eu poderia"):</strong> Admite o problema, mas é ambivalente. <span class="font-semibold text-cyan-700">Estratégia:</span> Evocar razões para a mudança, fortalecer a autossuficiência.</li>
+                                    <li><strong>Preparação ("Eu vou/posso"):</strong> Planeja e cria condições para mudar. <span class="font-semibold text-cyan-700">Estratégia:</span> Ajudar a determinar a melhor linha de ação.</li>
+                                    <li><strong>Ação ("Eu faço"):</strong> Implementa mudanças. <span class="font-semibold text-cyan-700">Estratégia:</span> Ajudar o usuário a dar passos rumo à mudança.</li>
+                                    <li><strong>Manutenção ("Eu tenho"):</strong> Mantém os ganhos e previne recaída. <span class="font-semibold text-cyan-700">Estratégia:</span> Ajudar a identificar e utilizar estratégias de prevenção da recaída.</li>
+                                     <li><strong>Recaída:</strong> Retomada do hábito. <span class="font-semibold text-cyan-700">Estratégia:</span> Ajudar a renovar o processo sem desmoralização.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Abordagem Breve (PAAPA) -->
+                    <div class="flip-card h-96">
+                        <div class="flip-card-inner rounded-xl shadow-lg">
+                            <div class="flip-card-front bg-gray-100 p-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Abordagem Breve/Mínima (PAAPA)</h3>
+                            </div>
+                            <div class="flip-card-back bg-white p-6 overflow-y-auto">
+                                <p class="text-sm mb-4">Pode ser feita por qualquer profissional de saúde durante a consulta de rotina (3-5 minutos). Indicada para todos os fumantes.</p>
+                                <div class="grid grid-cols-5 gap-2 text-center">
+                                    <div class="p-2 bg-cyan-50 rounded-lg flex flex-col items-center justify-center"><strong class="text-cyan-800 text-2xl font-bold">P</strong><p class="text-xs">Perguntar</p></div>
+                                    <div class="p-2 bg-cyan-50 rounded-lg flex flex-col items-center justify-center"><strong class="text-cyan-800 text-2xl font-bold">A</strong><p class="text-xs">Avaliar</p></div>
+                                    <div class="p-2 bg-cyan-50 rounded-lg flex flex-col items-center justify-center"><strong class="text-cyan-800 text-2xl font-bold">A</strong><p class="text-xs">Aconselhar</p></div>
+                                    <div class="p-2 bg-cyan-50 rounded-lg flex flex-col items-center justify-center"><strong class="text-cyan-800 text-2xl font-bold">P</strong><p class="text-xs">Preparar</p></div>
+                                    <div class="p-2 bg-cyan-50 rounded-lg flex flex-col items-center justify-center"><strong class="text-cyan-800 text-2xl font-bold">A</strong><p class="text-xs">Acompanhar</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Abordagem Intensiva -->
+                    <div class="flip-card h-96">
+                        <div class="flip-card-inner rounded-xl shadow-lg">
+                            <div class="flip-card-front bg-gray-100 p-6">
+                                <h3 class="text-2xl font-bold text-gray-800">Abordagem Intensiva</h3>
+                            </div>
+                            <div class="flip-card-back bg-white p-6 overflow-y-auto">
+                                 <p class="text-sm mb-2">Baseada na abordagem cognitiva comportamental, com sessões estruturadas (4 sessões iniciais semanais) e suporte de manuais do INCA. As modalidades podem ser:</p>
+                                <ul class="list-disc list-inside space-y-2 text-xs">
+                                   <li><strong>Tratamento Individual:</strong> Indicado para pacientes com dificuldade de interação, comorbidades específicas que mobilizam o grupo ou por preferência do próprio paciente.</li>
+                                   <li><strong>Tratamento em Grupo:</strong> Utiliza a interação e a troca de experiências para incentivar e apoiar as mudanças de comportamento, sem estimular a dependência do grupo.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção: Teste de Fagerström -->
+            <section id="fagerstrom" class="my-16">
+                <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Teste de Fagerström (Calculadora Interativa)</h2>
+                <p class="mb-8 text-center">Avalie o nível de dependência física à nicotina. Responda às perguntas abaixo para obter o resultado.</p>
+                <div class="card max-w-4xl mx-auto">
+                    <form id="fagerstrom-form" class="space-y-6">
+                        <!-- Pergunta 1 -->
+                        <div>
+                            <label class="font-semibold block mb-2">1. Quanto tempo após acordar você fuma seu primeiro cigarro?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q1" value="3" class="mr-2"> Dentro de 5 minutos</label>
+                                <label><input type="radio" name="q1" value="2" class="mr-2"> Entre 6 e 30 minutos</label>
+                                <label><input type="radio" name="q1" value="1" class="mr-2"> Entre 31 e 60 minutos</label>
+                                <label><input type="radio" name="q1" value="0" class="mr-2"> Após 60 minutos</label>
+                            </div>
+                        </div>
+                        <!-- Pergunta 2 -->
+                        <div>
+                            <label class="font-semibold block mb-2">2. Você acha difícil não fumar em locais proibidos?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q2" value="1" class="mr-2"> Sim</label>
+                                <label><input type="radio" name="q2" value="0" class="mr-2"> Não</label>
+                            </div>
+                        </div>
+                        <!-- Pergunta 3 -->
+                        <div>
+                            <label class="font-semibold block mb-2">3. Qual o cigarro do dia que lhe traz mais satisfação?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q3" value="1" class="mr-2"> O primeiro da manhã</label>
+                                <label><input type="radio" name="q3" value="0" class="mr-2"> Outros</label>
+                            </div>
+                        </div>
+                        <!-- Pergunta 4 -->
+                        <div>
+                            <label class="font-semibold block mb-2">4. Quantos cigarros você fuma por dia?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q4" value="0" class="mr-2"> 10 ou menos</label>
+                                <label><input type="radio" name="q4" value="1" class="mr-2"> 11 a 20</label>
+                                <label><input type="radio" name="q4" value="2" class="mr-2"> 21 a 30</label>
+                                <label><input type="radio" name="q4" value="3" class="mr-2"> 31 ou mais</label>
+                            </div>
+                        </div>
+                        <!-- Pergunta 5 -->
+                        <div>
+                            <label class="font-semibold block mb-2">5. Você fuma mais frequentemente nas primeiras horas após acordar?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q5" value="1" class="mr-2"> Sim</label>
+                                <label><input type="radio" name="q5" value="0" class="mr-2"> Não</label>
+                            </div>
+                        </div>
+                        <!-- Pergunta 6 -->
+                        <div>
+                            <label class="font-semibold block mb-2">6. Você fuma mesmo doente, a ponto de ficar na cama?</label>
+                            <div class="flex flex-col space-y-2">
+                                <label><input type="radio" name="q6" value="1" class="mr-2"> Sim</label>
+                                <label><input type="radio" name="q6" value="0" class="mr-2"> Não</label>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="fagerstrom-result" class="mt-8 p-6 bg-cyan-50 rounded-lg text-center hidden">
+                        <h3 class="text-xl font-bold text-cyan-800">Seu Resultado</h3>
+                        <p class="text-2xl mt-2">Pontuação: <span id="score" class="font-bold"></span></p>
+                        <p class="text-lg mt-1">Grau de Dependência: <span id="level" class="font-bold"></span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção: Tratamento Medicamentoso -->
+            <section id="tratamento" class="my-16">
+                <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Tratamento Medicamentoso</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card bg-green-50 border-l-4 border-green-500 hover:scale-105">
+                        <h3 class="font-bold text-lg text-green-900 mb-2">Para Quem Prescrever?</h3>
+                        <p>O apoio medicamentoso minimiza os sintomas da síndrome de abstinência e deve ser usado junto com a abordagem cognitivo-comportamental.</p>
+                        <ul class="list-disc list-inside mt-4 space-y-1">
+                            <li>Usuário de 5 ou mais cigarros por dia.</li>
+                            <li>Fuma o primeiro cigarro em até 1h após acordar.</li>
+                            <li>Teste de Fagerström ≥ 4.</li>
+                            <li>Tentativas prévias sem sucesso devido a sintomas de abstinência intensos.</li>
+                            <li>Critério clínico, sem contraindicações.</li>
+                        </ul>
+                    </div>
+                     <div class="card bg-blue-50 border-l-4 border-blue-500 hover:scale-105">
+                        <h3 class="font-bold text-lg text-blue-900 mb-2">Medicamentos Disponíveis na Rede</h3>
+                         <p>O tempo de tratamento é de 12 meses (avaliação, intervenção e manutenção).</p>
+                        <ul class="list-disc list-inside mt-4 space-y-1">
+                            <li><strong>Terapia de Reposição de Nicotina (TRN):</strong> Adesivo transdérmico (7, 14 e 21mg) e Goma de mascar (2mg).</li>
+                            <li><strong>Não nicotínico:</strong> Bupropiona.</li>
+                            <li><strong>Esquema preferencial:</strong> Adesivo transdérmico + Goma de mascar.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                 <div class="mt-8 space-y-4">
+                    <!-- Item Acordeão 1: Adesivo -->
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span class="text-cyan-800 font-semibold">Adesivo Transdérmico (TRN)</span>
+                            <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="content-inner">
+                                <p>Liberação lenta e controlada de nicotina. Reposição considera 1mg por cigarro fumado. A dosagem é reduzida progressivamente.</p>
+                                <ul class="list-disc list-inside mt-4 space-y-3">
+                                   <li><strong>≥ 20 cigarros/dia (ou Fagerström 8-10):</strong> Tratamento de 12 semanas (4sem 21mg, 4sem 14mg, 4sem 7mg).</li>
+                                   <li><strong>≥ 10 cigarros/dia (ou Fagerström 5-7):</strong> Tratamento de 8 semanas (4sem 14mg, 4sem 7mg).</li>
+                                   <li><strong>&lt; 10 cigarros/dia (ou Fagerström &lt; 5):</strong> Tratamento de até 6 semanas (iniciar com 7mg).</li>
+                                   <li><strong>Associação de adesivos (para fumantes &gt; 20 cigarros/dia):</strong>
+                                        <ul class="list-disc list-inside ml-6 mt-1 space-y-1">
+                                            <li>20-30 cigarros/dia: 21mg + 7mg</li>
+                                            <li>30-40 cigarros/dia: 21mg + 14mg</li>
+                                            <li>&gt; 40 cigarros/dia: 21mg + 21mg (dose máx 42mg/dia)</li>
+                                        </ul>
+                                   </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Acordeão 2: Goma -->
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span class="text-cyan-800 font-semibold">Goma de Nicotina</span>
+                            <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="content-inner">
+                                <p>Usada concomitantemente ao adesivo para controle da fissura (pico de nicotina). Máximo de 5 unidades/dia nesse esquema.</p>
+                                <p class="mt-4"><strong>Modo de Uso:</strong> Mastigar até sentir formigamento, repousar a goma entre a bochecha e a gengiva até o formigamento passar. Repetir o processo por 30 minutos. Não beber líquidos durante o uso.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Acordeão 3: Bupropiona -->
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span class="text-cyan-800 font-semibold">Bupropiona e Nortriptilina</span>
+                             <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="content-inner">
+                                <p><strong>Bupropiona:</strong> Iniciar 1-2 semanas antes da data de parada. 150mg/dia por 3 dias, depois 150mg 2x/dia (intervalo de 8h) por 12 semanas. <strong>Contraindicações:</strong> convulsões, transtorno alimentar/bipolar, ideação suicida. Comprimidos não podem ser partidos. Para idosos, dose única matinal de 150mg/dia.</p>
+                                <p class="mt-4"><strong>Nortriptilina:</strong> Iniciar 2-4 semanas antes da data de parada. Iniciar com 25mg à noite, aumentar 25mg/semana até 75-100mg. Usar por 12 semanas e diminuir até parar. <strong>Evitar se:</strong> ideação suicida, doença cardíaca, retenção urinária, glaucoma, epilepsia.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção: PICS -->
+            <section id="pics" class="my-16">
+                <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Práticas Integrativas e Complementares (PICS)</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                         <p class="mb-4">O SUS oferece PICS que podem ser usadas como alternativa complementar ao tratamento, como Aromaterapia, Yoga, Dança Circular e Auriculoterapia.</p>
+                         <div class="card hover:scale-105">
+                             <h3 class="font-bold text-lg text-cyan-800">Auriculoterapia para Tabagismo</h3>
+                             <p>Recomenda-se no mínimo 8 sessões com frequência semanal.</p>
+                             <ul class="list-disc list-inside mt-2">
+                                 <li><strong>Pontos principais:</strong> Shenmen e Pulão.</li>
+                                 <li><strong>Outros pontos:</strong> Boca, Fome, Simpático, Fígado, Ansiedade, Vícios, etc.</li>
+                                 <li><strong>Mecanismo:</strong> O Shenmen acalma a mente e o ponto do Pulmão fortalece o Qi. Esses pontos estão associados à liberação de opioides e monoaminas, promovendo bem-estar e reduzindo a ansiedade e o desejo de fumar.</li>
+                             </ul>
+                         </div>
+                    </div>
+                     <div>
+                        <!-- Imagem da orelha com pontos de auriculoterapia -->
+                        <img src="https://i.imgur.com/7r5Kd5R.png" alt="Pontos de Auriculoterapia para Tabagismo" class="rounded-lg shadow-lg mx-auto max-w-sm w-full">
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Seção: Abordagem Nutricional e Manejo da Fissura -->
+            <section id="nutricao" class="my-16">
+                 <h2 class="text-4xl font-bold text-cyan-800 mb-8 text-center">Abordagem Nutricional e Manejo da Fissura</h2>
+                 <div class="grid md:grid-cols-2 gap-8">
+                     <div class="card hover:scale-105">
+                         <h3 class="font-bold text-lg text-cyan-800">Recomendações Nutricionais</h3>
+                         <p class="mb-2">O ganho de peso pós-cessação é comum e geralmente temporário. Recomenda-se:</p>
+                         <ul class="list-disc list-inside space-y-1">
+                            <li>Basear a alimentação em alimentos in natura ou minimamente processados.</li>
+                            <li>Usar óleos, gorduras, sal e açúcar com moderação.</li>
+                            <li>Limitar o consumo de ultraprocessados.</li>
+                            <li>Comer com regularidade e atenção.</li>
+                         </ul>
+                     </div>
+                     <div class="card hover:scale-105">
+                          <h3 class="font-bold text-lg text-cyan-800">Estratégias para Manejo da Fissura</h3>
+                          <ul class="list-disc list-inside space-y-1">
+                            <li>Beber mais água (preferencialmente gelada) ou chupar gelo.</li>
+                            <li>Consumir frutas picadas, castanhas, palitos de legumes, pipoca caseira.</li>
+                            <li>Mascar cristais de gengibre ou chicletes sem açúcar.</li>
+                            <li>Escovar os dentes após as refeições.</li>
+                            <li>Fazer exercícios de relaxamento e respiração.</li>
+                            <li>Conversar com alguém da rede de apoio.</li>
+                            <li>Praticar uma atividade física prazerosa.</li>
+                          </ul>
+                     </div>
+                 </div>
+            </section>
+
+            <!-- Seção: Manutenção e Recaída -->
+            <section id="recaida" class="my-16">
+                <div class="flip-card h-64 md:h-48">
+                    <div class="flip-card-inner shadow-lg">
+                        <div class="flip-card-front bg-cyan-700 text-white p-6">
+                            <h2 class="text-3xl font-bold">Manutenção e Prevenção de Recaída</h2>
+                            <p class="mt-4 max-w-2xl mx-auto">A recaída é um processo comum. Passe o mouse aqui para ver a estratégia de 4 passos para situações de risco.</p>
+                        </div>
+                        <div class="flip-card-back bg-gray-800 text-white p-6">
+                            <h3 class="text-2xl font-bold text-center mb-4">Estratégia dos 4 Passos</h3>
+                            <div class="grid grid-cols-1 gap-2 md:gap-4 text-left max-w-3xl">
+                                <div><strong class="text-cyan-400">1. EVITAR:</strong> Situações de risco, principalmente nas primeiras semanas.</div>
+                                <div><strong class="text-cyan-400">2. ESCAPAR:</strong> Deixar locais com fumantes ou que favoreçam o ato de fumar.</div>
+                                <div><strong class="text-cyan-400">3. DISTRAIR:</strong> Deslocar o pensamento automático de fumar para um pensamento assertivo.</div>
+                                <div><strong class="text-cyan-400">4. ADIAR:</strong> Assumir o controle com pensamentos como "só por agora" ou "só por hoje".</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+             <!-- Seção Quiz -->
+            <section id="quiz" class="my-16 text-center">
+                 <h2 class="text-4xl font-bold text-cyan-800 mb-4 text-center">Quiz</h2>
+                 <p class="mb-8 text-lg text-gray-600">Treine aqui seus conhecimentos antes de fazer o teste de aproveitamento.</p>
+
+                <div class="card max-w-4xl mx-auto text-left">
+                    <div id="quiz-progress" class="mb-4 text-center font-semibold text-cyan-700"></div>
+                    <div id="quiz-container">
+                        <!-- A questão atual do quiz será inserida aqui -->
+                    </div>
+                    <div id="quiz-navigation" class="mt-6 text-right">
+                        <!-- O botão de Próxima/Finalizar será inserido aqui -->
+                    </div>
+                </div>
+                
+                <div id="quiz-feedback" class="mt-8 p-6 rounded-lg text-xl font-semibold hidden max-w-4xl mx-auto">
+                    <!-- O feedback do quiz será inserido aqui -->
+                </div>
+            </section>
+
+
+            <!-- Seção Teste de Aproveitamento -->
+            <section id="teste-aproveitamento" class="my-16 text-center">
+                <div class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg border-t-4 border-cyan-500">
+                    <p class="mb-6 text-lg text-gray-800">
+                        Caso tenha feito a sua inscrição para o curso, para obter seu certificado faça o Teste de Aproveitamento!
+                    </p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdwFDKmeDGG7X_mL8y3fxaOyNFs3rpkmsnnwelh2UmCnQZ4kw/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-lg text-white bg-cyan-700 py-3 px-6 rounded-full hover:bg-cyan-800 transition-colors shadow-md">
+                        <i class="fas fa-file-alt mr-2"></i>Teste de Aproveitamento
+                    </a>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Modal do Curso Livre -->
+    <div id="courseModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full relative">
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold text-teal-900 mb-4">Instruções do Curso Livre</h3>
+            <div class="text-slate-700">
+                <ol class="list-decimal list-inside space-y-3 text-base">
+                    <li>Este Curso Livre é voltado para profissionais de saúde de nível superior e será certificado com a carga horária de 2 horas/aula.</li>
+                    <li>Você deve clicar no botão disponível no fim desta página (ou <a href="https://espfloripa.github.io/cursoslivres/" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-semibold">aqui</a>) e preencher todos os campos para se inscrever no curso no mês corrente.</li>
+                    <li>Após a inscrição realizada, você tem até o último dia do mês para responder o teste de aproveitamento disponibilizado no botão no fim da página (não confundir com o Quiz!).</li>
+                    <li>Ao responder o teste de aproveitamento coloque o nome completo e CPF conforme você colocou no link de inscrição.</li>
+                    <li>A nota de corte para aprovação é de 80%.</li>
+                    <li>O teste de aproveitamento só permite uma resposta por participante, caso você não seja aprovado poderá repetir o curso no mês seguinte.</li>
+                    <li>O certificado será disponibilizado no <a href="http://cursossms.pmf.sc.gov.br/ver/" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-semibold">site da ESP</a> até o último dia útil do mês seguinte à finalização do curso. O login é seu CPF e a senha padrão é 123.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto p-6 text-center">
+            <p>Este material foi elaborado pela Escola de Saúde Pública com base no "GUIA PRÁTICO TABAGISMO NA APS" da Gerência de Integração Assistencial da Prefeitura de Florianópolis.</p>
+            <p class="text-sm text-gray-400 mt-2">Uma ferramenta para a qualificação do cuidado na Atenção Primária à Saúde.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script para menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Script para Acordeões de Tratamento
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const button = item.querySelector('.accordion-button');
+                const content = item.querySelector('.accordion-content');
+                const icon = button.querySelector('svg');
+
+                button.addEventListener('click', () => {
+                    const wasOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+                    // Fecha todos os acordeões do grupo
+                    item.parentElement.querySelectorAll('.accordion-content').forEach(c => {
+                        c.style.maxHeight = null;
+                        const btn = c.previousElementSibling;
+                        if(btn) {
+                           const btnIcon = btn.querySelector('svg');
+                           if(btnIcon) btnIcon.classList.remove('rotate-180');
+                        }
+                    });
+                    
+                    // Se não estava aberto, abre o clicado
+                    if (!wasOpen) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        if(icon) icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+            // Script para calculadora Fagerström
+            const form = document.getElementById('fagerstrom-form');
+            if (form) {
+                const resultDiv = document.getElementById('fagerstrom-result');
+                const scoreSpan = document.getElementById('score');
+                const levelSpan = document.getElementById('level');
+
+                form.addEventListener('change', () => {
+                    const formData = new FormData(form);
+                    let score = 0;
+                    let questionCount = 0;
+                    
+                    for (let value of formData.values()) {
+                        score += parseInt(value);
+                        questionCount++;
+                    }
+
+                    const totalQuestions = form.querySelectorAll('div > label.font-semibold').length;
+                    if (questionCount === totalQuestions) {
+                        let level = '';
+                        if (score <= 2) level = 'Muito baixo';
+                        else if (score <= 4) level = 'Baixo';
+                        else if (score == 5) level = 'Médio';
+                        else if (score <= 7) level = 'Elevado';
+                        else level = 'Muito elevado';
+
+                        scoreSpan.textContent = score;
+                        levelSpan.textContent = level;
+                        resultDiv.classList.remove('hidden');
+                    }
+                });
+            }
+            
+            // Script para o Modal do Curso Livre
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const courseModal = document.getElementById('courseModal');
+
+            if (openModalBtn && closeModalBtn && courseModal) {
+                openModalBtn.addEventListener('click', () => {
+                    courseModal.classList.remove('hidden');
+                });
+
+                closeModalBtn.addEventListener('click', () => {
+                    courseModal.classList.add('hidden');
+                });
+
+                // Fecha o modal se clicar fora do conteúdo
+                window.addEventListener('click', (event) => {
+                    if (event.target === courseModal) {
+                        courseModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Script para o botão Iniciar
+            const startButton = document.getElementById('start-button');
+            const startSection = document.getElementById('start-section');
+            const mainContent = document.getElementById('main-content');
+
+            if (startButton && mainContent && startSection) {
+                startButton.addEventListener('click', () => {
+                    mainContent.classList.remove('hidden');
+                    startSection.classList.add('hidden');
+                    // Scroll suave para a próxima seção
+                    document.getElementById('video').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+
+            // Script para o Quiz (Com feedback por questão)
+            const quizContainer = document.getElementById('quiz-container');
+            const quizNavigation = document.getElementById('quiz-navigation');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const quizProgress = document.getElementById('quiz-progress');
+
+            const quizQuestions = [
+                { question: "O tabagismo é classificado como uma doença crônica no CID-11.", answer: true },
+                { question: "A nicotina dos cigarros eletrônicos (DEFs) tem um potencial de dependência menor que a dos cigarros comuns.", answer: false },
+                { question: "A comercialização de Dispositivos Eletrônicos para Fumar é permitida no Brasil desde 2009.", answer: false },
+                { question: "O tabagismo passivo não representa risco de câncer de pulmão para crianças na vida adulta.", answer: false },
+                { question: "Florianópolis está entre as 5 capitais com maior número de fumantes no Brasil.", answer: false },
+                { question: "O tratamento do tabagismo no SUS deve ser realizado exclusivamente em grupo.", answer: false },
+                { question: "O Teste de Fagerström avalia o grau de motivação do paciente para parar de fumar.", answer: false },
+                { question: "Um paciente no estágio de 'Ação' já está implementando mudanças para parar de fumar.", answer: true },
+                { question: "A abordagem PAAPA deve ser realizada apenas por médicos especialistas em tabagismo.", answer: false },
+                { question: "O tratamento medicamentoso é indicado para todos os fumantes, independentemente do número de cigarros por dia.", answer: false },
+                { question: "A Bupropiona é uma Terapia de Reposição de Nicotina (TRN).", answer: false },
+                { question: "Para um fumante de 25 cigarros por dia, o tratamento com adesivo de nicotina deve iniciar com a dosagem de 21mg.", answer: true },
+                { question: "A goma de nicotina é utilizada para uma liberação lenta e constante da substância ao longo do dia.", answer: false },
+                { question: "A Bupropiona deve ser iniciada no mesmo dia em que o paciente para de fumar.", answer: false },
+                { question: "Idosos com comorbidades cardiovasculares não podem ser tratados por enfermeiros com TRN, devendo ser encaminhados ao médico.", answer: true },
+                { question: "Os pontos Shenmen e Pulmão são os principais na auriculoterapia para o tratamento do tabagismo.", answer: true },
+                { question: "Durante a fase de fissura, recomenda-se o consumo de cafeína para aliviar a ansiedade.", answer: false },
+                { question: "A estratégia de 'ADIAR' no manejo da recaída significa adiar o tratamento para um momento mais oportuno.", answer: false },
+                { question: "O ganho de peso após parar de fumar é um efeito permanente na maioria dos casos.", answer: false },
+                { question: "O esquema preferencial de tratamento medicamentoso combina o adesivo transdérmico com a goma de mascar.", answer: true },
+            ];
+            
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+
+            function displayQuestion() {
+                if (!quizContainer || !quizNavigation || !quizProgress) return;
+
+                quizContainer.innerHTML = '';
+                quizNavigation.innerHTML = '';
+                
+                if (currentQuestionIndex < quizQuestions.length) {
+                    const q = quizQuestions[currentQuestionIndex];
+                    quizProgress.textContent = `Questão ${currentQuestionIndex + 1} de ${quizQuestions.length}`;
+                    
+                    const questionElement = document.createElement('div');
+                    questionElement.innerHTML = `
+                        <p class="font-semibold text-lg">${q.question}</p>
+                        <div class="mt-4 flex flex-col gap-2">
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer transition-colors">
+                                <input type="radio" name="question${currentQuestionIndex}" value="true" class="mr-3"> Verdadeiro
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer transition-colors">
+                                <input type="radio" name="question${currentQuestionIndex}" value="false" class="mr-3"> Falso
+                            </label>
+                        </div>
+                    `;
+                    quizContainer.appendChild(questionElement);
+
+                    const actionButton = document.createElement('button');
+                    actionButton.textContent = 'Verificar';
+                    actionButton.classList.add('bg-cyan-600', 'text-white', 'font-bold', 'py-2', 'px-6', 'rounded-full', 'hover:bg-cyan-700', 'transition-colors');
+                    actionButton.onclick = verifyCurrentAnswer;
+                    quizNavigation.appendChild(actionButton);
+                }
+            }
+            
+            function verifyCurrentAnswer() {
+                const selectedRadio = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+                if (!selectedRadio) {
+                    alert('Por favor, selecione uma resposta.');
+                    return;
+                }
+
+                userAnswers[currentQuestionIndex] = selectedRadio.value;
+
+                const radios = document.querySelectorAll(`input[name="question${currentQuestionIndex}"]`);
+                radios.forEach(radio => {
+                    radio.disabled = true;
+                    const label = radio.parentElement;
+                    const isCorrectAnswer = radio.value === quizQuestions[currentQuestionIndex].answer.toString();
+
+                    label.classList.remove('hover:bg-gray-100');
+                    if (isCorrectAnswer) {
+                        label.classList.add('bg-green-100', 'border-green-400');
+                    } else if (radio.checked) {
+                        label.classList.add('bg-red-100', 'border-red-400');
+                    }
+                });
+
+                const actionButton = quizNavigation.querySelector('button');
+                actionButton.textContent = (currentQuestionIndex === quizQuestions.length - 1) ? 'Finalizar Quiz' : 'Próxima Questão';
+                actionButton.onclick = moveToNext;
+            }
+
+            function moveToNext() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizQuestions.length) {
+                    displayQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }
+
+            function showQuizResults() {
+                let score = 0;
+                quizQuestions.forEach((q, index) => {
+                    if (userAnswers[index] === q.answer.toString()) {
+                        score++;
+                    }
+                });
+
+                quizContainer.parentElement.classList.add('hidden');
+                
+                quizFeedback.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+                if (score >= 16) {
+                    quizFeedback.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Parabéns! Você acertou ${score} de ${quizQuestions.length}. Você parece estar preparado para o Teste de Aproveitamento!`;
+                    quizFeedback.classList.add('bg-green-100', 'text-green-800');
+                } else {
+                    quizFeedback.innerHTML = `<i class="fas fa-times-circle mr-2"></i> Você acertou ${score} de ${quizQuestions.length}. Hummmm, acho melhor você estudar um pouco mais antes de fazer o Teste de Aproveitamento!`;
+                    quizFeedback.classList.add('bg-red-100', 'text-red-800');
+                }
+            }
+            
+            function initQuiz() {
+                if (quizContainer) {
+                    displayQuestion();
+                }
+            }
+
+            initQuiz();
+
+        });
+    </script>
+</body>
+</html>
+
